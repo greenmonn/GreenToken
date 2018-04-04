@@ -10,9 +10,9 @@ import "./MintableToken.sol";
  */ 
 
 // Set up your contract. 
-contract {
+contract GreenToken is MintableToken {
     // Define 3 public state variables: name, symbol, number of decimals.
-    ;
-    ;
-    ;
+    string public name = 'GreenToken';
+    string public symbol = 'GRT';
+    uint8 public decimals = 18;
 }

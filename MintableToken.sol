@@ -13,7 +13,7 @@ import "https://github.com/OpenZeppelin/zeppelin-solidity/contracts/ownership/Ow
  */
 
 // Set up your contract so that it inherits functionality from OpenZeppelin's StandardToken and Ownable.
-contract {
+contract MintableToken is StandardToken, Ownable {
     // Create event that logs the receiver address and the amount of the token being minted.
     event Mint(address indexed to, uint256 amount);
     // Create event that logs the completion of token minting.
@@ -25,7 +25,7 @@ contract {
     // Create modifier that enforces the condition for minting to be available only if minting is not finished.
     modifier canMint() {
         // Require statements are used to check for conditions and throw an exception if the condition isn't met.
-        ;
+        require(!mintingFinished);
         // _; is used to return the flow of execution to the original function.
         _;
     }
@@ -33,25 +33,25 @@ contract {
     // Create function to mint tokens with 2 parameters: the address that will receive the minted tokens and the amount of tokens to mint.
     // Write the function so that it returns a boolean that indicates if the operation was successful.
     // Make sure to include the appropriate modifers.
-    function mint( , ) {
+    function mint(address _address, uint amount) public returns (bool)  {
         // Update the state of total token supply by adding the amount of tokens minted.
-        totalSupply_ = ;
+        totalSupply_ = totalSupply_ + amount;
         // Update the state of the receiving address's token balance by adding the amount of tokens minted.
-        balances[_to] = ;
+        balances[_address] = balances[_address].add(amount);
         // Emit the Mint event with appropriate input parameters.
-        ;
+        emit Mint(_address, amount);
         // Execute the Transfer function inherited from the StandardToken contract to deliver the minted tokens to the receiver.
         // Transfer function requires 3 parameters: address tokens are coming from, address tokens are going to, amount of tokens.
-        Transfer( , , );
+        Transfer(address(0), _address, amount);
         // Indicate that the operation was successful. 
-        ;
+        return true;
     }
     
     // Create function to stop minting new tokens. Modifiers modifiers modifiers.
     // Write the function so taht it returns a boolean that indicates if the operation was successful.
     function finishMinting() onlyOwner canMint public returns (bool) {
         // Update initial state to reflect that minting is finished.
-        mintingFinished;
+        mintingFinished = true;
         // Emit event that logs the completion of token minting.
         MintFinished();
         // Indicate that the operation was successful.
